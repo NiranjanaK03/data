@@ -1,0 +1,142 @@
+#include<stdio.h>
+#include<stdlib.h>
+struct node
+{
+    int data;
+    struct node*next;
+    struct node*prev;
+};
+  struct node*headnode,*ennode;
+  void create(int n);
+  void insertfront(int n);
+  void insertend(int n);
+  void deletefront();
+  void deleteend();
+  void displaylist();
+  int main()
+  {
+     int n1,n2,op,n3;
+     char ch;
+     printf("do you want to create a linkedlist:");
+     printf("y or n");
+     scanf("%c",&ch);
+     if(ch=='y')
+     {
+       printf("enter the number of nodes: ");
+       scanf("%d",&n1);
+       create(n1);
+       displaylist();
+     }
+       printf("what you want to do");
+       printf("1.insertion at front \t 2.insertion at end \t 3.deletion at front \t 4.deletion at end \t 5.traversal");
+       scanf("%d",&op);
+       switch(op)
+     {
+       case 1:
+         printf("enter the data to insert");
+         scanf("%d",&n2);
+         insertfront(n2);
+         displaylist();
+         break;
+       case 2:
+         printf("enter the data to insert");
+         scanf("%d",&n3);
+         insertend(n3);
+         displaylist();
+         break;
+       case 3:
+         deletefront();
+         displaylist();
+         break;
+       case 4:
+         deleteend();
+         displaylist();
+         break;
+       case 5:
+         displaylist();
+         break;
+       case 6:
+         printf("invalid operations");
+         break;       
+     }
+}
+void create(int n)
+{
+    struct node*node1;
+    int num,i;
+    headnode=(struct node*)malloc(sizeof(struct node));
+    if(headnode!=NULL)
+    {
+      printf("Input data for node1\t:");
+      scanf("%d",&num);
+      headnode->data=num;
+      headnode->prev=NULL;
+      headnode->next=NULL;
+      ennode=headnode;
+      for(i=2;i<=n;i++)
+      {
+        node1=(struct node*)malloc(sizeof(struct node));
+        if(node1!=NULL)
+        {
+          printf("enter data for node%d\t:",i);
+          scanf("%d",&num);
+          node1->data=num;
+          node1->prev=ennode;
+          node1->next=NULL;
+          ennode->next=node1;
+          ennode=node1;
+         }
+       }
+    }
+}
+void displaylist()
+{
+      struct node*temp;
+      temp=headnode;
+      printf("the list is:\n");
+      while(temp!=NULL)
+      {
+          printf("DATA=%d\n",temp->data);
+          temp=temp->next;
+      }
+    
+ }
+ void insertfront(int n)
+ {
+      struct node*newnode=(struct node*)malloc(sizeof(struct node));
+      newnode->data=n;
+      newnode->next=headnode;
+      headnode->prev=NULL;
+      {
+        headnode->prev=newnode;
+        headnode=newnode;
+      }
+ }
+ void insertend(int n)
+ {
+      struct node*newnode=(struct node*)malloc(sizeof(struct node));
+      newnode->data=n;
+      newnode->next=NULL;
+      newnode->prev=ennode;
+      ennode->next=newnode;
+      ennode=newnode;
+ }
+ void deletefront()
+ {
+      struct node*temp;
+      temp=headnode;
+      headnode=headnode->next;
+      headnode->prev=NULL;
+      free(temp);
+ }
+ void deleteend()
+ {
+      struct node*temp;
+      temp=ennode;
+      ennode=ennode->prev;
+      if(ennode!=NULL)
+      {
+        ennode->next=NULL;
+      }
+      free(temp);
+ }
